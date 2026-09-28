@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ZipForge – Compress files. Keep them yours.</title>
+<meta name="description" content="Private, in-browser ZIP creator with real AES-256 password protection.">
+<meta name="theme-color" content="#f3f5fb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- PWA-ready: add these when you create the files
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png"> -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%235b5bf0'/%3E%3Cpath d='M13 3L6 13h5l-1 8 7-10h-5z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div class="brand"><span class="logo" data-i="bolt"></span><div><h1>ZipForge</h1><p>Compress files. Keep them yours.</p></div></div>
+    <button class="ib" data-act="settings" aria-label="Settings" data-i="sliders"></button>
+  </header>
+  <ol id="steps" class="steps" aria-label="Progress" hidden></ol>
+
+  <main id="main">
+    <!-- HOME -->
+    <section id="s-home" class="scr" aria-labelledby="h-home">
+      <div class="card hero" id="drop">
+        <span class="hico" data-i="archive"></span>
+        <h2 id="h-home">Add your files</h2>
+        <p class="mut">Pick files or a whole folder. Folder structure is preserved.</p>
+        <button class="btn pri" data-act="pickFiles"><i data-i="file"></i>Select Files</button>
+        <button class="btn sec" data-act="pickDir"><i data-i="folder"></i>Select Folder</button>
+        <p class="hint">or drag &amp; drop them here</p>
+      </div>
+      <div class="card note"><i data-i="shield"></i><div><b>🔒 Private by design</b><p>Your files are processed in your browser whenever supported. They don't need to be uploaded to a server.</p></div></div>
+    </section>
+
+    <!-- FILES + CLEAN -->
+    <section id="s-files" class="scr" hidden aria-label="Selected files">
+      <div class="stats" id="stats" aria-live="polite"></div>
+      <ul class="list" id="list" aria-label="Selected items"></ul>
+      <div class="two">
+        <button class="btn sec sm" data-act="pickFiles"><i data-i="plus"></i>Add files</button>
+        <button class="btn sec sm" data-act="pickDir"><i data-i="plus"></i>Add folder</button>
+      </div>
+      <div class="card">
+        <div class="ch"><i data-i="broom"></i><div><b>Clean Project</b><p class="mut">Optional. Leave out dev clutter — nothing is deleted from your device.</p></div></div>
+        <label class="lbl" for="preset">Preset</label>
+        <select id="preset" class="inp">
+          <option value="off">Off – include everything</option><option value="general">General</option><option value="web">Web Project</option>
+          <option value="node">Node Project</option><option value="react">React Project</option><option value="python">Python Project</option><option value="android">Android Project</option>
+        </select>
+        <div id="rules" class="rules"></div>
+      </div>
+    </section>
+
+    <!-- OPTIONS -->
+    <section id="s-opts" class="scr" hidden aria-label="ZIP options">
+      <div class="card">
+        <b>Compression</b>
+        <div class="seg" role="radiogroup" aria-label="Compression level">
+          <button role="radio" data-lv="fast">Fast</button><button role="radio" data-lv="balanced">Balanced</button><button role="radio" data-lv="max">Maximum</button>
+        </div>
+        <p class="mut" id="lvDesc"></p>
+      </div>
+      <div class="card">
+        <div class="sw"><div><b>🔐 Protect with password</b><p class="mut">AES-256 encryption</p></div>
+          <label class="tog"><input type="checkbox" id="pwOn" role="switch" aria-label="Protect with password"><span></span></label></div>
+        <div id="pwBox" hidden>
+          <label class="lbl" for="pw">Password</label>
+          <input class="inp" id="pw" type="password" autocomplete="new-password" autocapitalize="off" spellcheck="false">
+          <label class="lbl" for="pw2">Confirm password</label>
+          <input class="inp" id="pw2" type="password" autocomplete="new-password" autocapitalize="off" spellcheck="false">
+          <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <p class="mut" id="meterTxt" aria-live="polite">Strength: –</p>
+          <div class="two"><button class="btn sec sm" id="showPw" data-act="showpw"><i data-i="eye"></i><span>Show password</span></button><button class="btn sec sm" data-act="gen"><i data-i="refresh"></i>Generate</button></div>
+          <p class="mut small">Store it safely. ZipForge never saves it, and it can't be recovered.</p>
+        </div>
+      </div>
+      <div class="card">
+        <label class="lbl first" for="zname"><b>ZIP name</b></label>
+        <div class="namebox"><input class="inp" id="zname" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="zhint"><span>.zip</span></div>
+        <p class="mut small" id="zhint">".zip" is added automatically.</p>
+      </div>
+    </section>
+
+    <!-- SUMMARY -->
+    <section id="s-sum" class="scr" hidden aria-labelledby="h-sum">
+      <div class="card"><h2 id="h-sum">Ready to compress</h2><dl id="sumRows" class="kv"></dl></div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section id="s-prog" class="scr" hidden aria-labelledby="h-prog">
+      <div class="card center">
+        <h2 id="h-prog">Creating ZIP…</h2>
+        <div class="bar-o" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="pbar"><div id="pfill"></div></div>
+        <div class="pct" id="ppct">0%</div>
+        <p class="mut" id="pstage">Starting…</p>
+        <p class="mut small">Processing:</p><p class="cur" id="pfile">–</p>
+        <p class="mut" id="pcount">0 / 0 files</p>
+      </div>
+    </section>
+
+    <!-- DONE -->
+    <section id="s-done" class="scr" hidden aria-labelledby="h-done">
+      <div class="card center">
+        <span class="okc" data-i="check"></span>
+        <h2 id="h-done">✅ ZIP Ready</h2>
+        <p class="zn" id="dName"></p>
+        <p class="sizes" id="dSizes"></p>
+        <p class="badge" id="dPct"></p>
+        <button class="btn pri" data-act="dl"><i data-i="download"></i>Download ZIP</button>
+        <button class="btn sec" data-act="share" id="btnShare" hidden><i data-i="share"></i>Share ZIP</button>
+        <div class="two"><button class="btn sec sm" data-act="again">Create Another ZIP</button><button class="btn sec sm" data-act="details">View Details</button></div>
+      </div>
+    </section>
+    <p class="foot"><button class="link" data-act="clear">Clear session</button></p>
+  </main>
+
+  <footer class="bar" id="bar" hidden>
+    <button class="btn sec" id="bBack">Back</button>
+    <button class="btn pri" id="bNext">Continue</button>
+  </footer>
+</div>
+
+<input type="file" id="inF" multiple hidden>
+<input type="file" id="inD" webkitdirectory directory multiple hidden>
+<div id="live" class="sr" aria-live="polite" role="status"></div>
+
+<dialog id="dlgSet" aria-labelledby="tSet"><div class="sheet">
+  <div class="sh"><h3 id="tSet">Settings</h3><button class="ib" data-act="close" aria-label="Close" data-i="x"></button></div>
+  <b>Appearance</b>
+  <div class="seg" role="radiogroup" aria-label="Theme"><button role="radio" data-th="light">Light</button><button role="radio" data-th="dark">Dark</button><button role="radio" data-th="system">System</button></div>
+  <b>Default compression</b>
+  <div class="seg" role="radiogroup" aria-label="Default compression"><button role="radio" data-lv="fast">Fast</button><button role="radio" data-lv="balanced">Balanced</button><button role="radio" data-lv="max">Maximum</button></div>
+  <b>Privacy</b><p class="mut">Everything runs locally in your browser. Files and passwords are never uploaded or stored. Only your theme and compression choice are saved on this device.</p>
+  <button class="btn sec sm" data-act="clear">Clear session</button>
+  <b>About</b><p class="mut">ZipForge v1.0 · Pure HTML, CSS &amp; vanilla JavaScript. ZIP engine with WinZip AES-256 built in, no external libraries.</p>
+</div></dialog>
+
+<dialog id="dlgDet" aria-labelledby="tDet"><div class="sheet">
+  <div class="sh"><h3 id="tDet">ZIP details</h3><button class="ib" data-act="close" aria-label="Close" data-i="x"></button></div>
+  <dl class="kv" id="detRows"></dl>
+</div></dialog>
+
+<dialog id="dlgErr" aria-labelledby="eT" role="alertdialog"><div class="sheet center">
+  <span class="okc bad" data-i="x"></span><h3 id="eT"></h3><p class="mut" id="eP"></p>
+  <button class="btn pri" data-act="close">Try again</button>
+</div></dialog>
+<script src="script.js"></script>
+<!-- Service worker (later): navigator.serviceWorker.register('sw.js') -->
+</body>
+</html>
