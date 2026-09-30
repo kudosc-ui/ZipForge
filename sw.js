@@ -1,5 +1,5 @@
 /* ZipForge service worker — app-shell cache for offline + installable PWA */
-const CACHE = 'zipforge-v1';
+const CACHE = 'zipforge-v2';
 const SHELL = ['./', './index.html', './style.css', './script.js', './manifest.webmanifest',
   './icons/icon-192.png', './icons/icon-512.png', './icons/icon-512-maskable.png', './icons/apple-touch-icon.png'];
 

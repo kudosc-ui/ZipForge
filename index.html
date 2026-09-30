@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="system">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>ZipForge – Compress files. Keep them yours.</title>
 <meta name="description" content="Private, in-browser ZIP creator with real AES-256 password protection.">
-<meta name="theme-color" content="#5b5bf0">
+<meta name="theme-color" content="#000000">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
@@ -20,7 +20,7 @@
 <div class="app" id="app">
   <header class="hd" id="hd">
     <button class="ib" id="hdBack" data-act="back" aria-label="Back" hidden><i data-i="back"></i></button>
-    <div class="hd-brand" id="hdBrand"><span class="logo" data-i="bolt"></span><div><strong>ZipForge</strong><small>Compress files. Keep them yours.</small></div></div>
+    <div class="hd-brand" id="hdBrand"></div>
     <h1 class="hd-title" id="hdTitle" hidden></h1>
     <button class="ib" id="hdSettings" data-act="settings" aria-label="Settings"><i data-i="sliders"></i></button>
   </header>
@@ -76,15 +76,24 @@
       <div class="blk">
         <div class="sw"><div><b>Protect with password</b><p class="mut">Real AES-256 encryption</p></div>
           <label class="tog"><input type="checkbox" id="pwOn" role="switch" aria-label="Protect with password"><span></span></label></div>
-        <div id="pwBox" hidden>
-          <label class="lbl" for="pw">Password</label>
-          <input class="inp" id="pw" type="password" autocomplete="new-password" autocapitalize="off" spellcheck="false">
-          <label class="lbl" for="pw2">Confirm password</label>
-          <input class="inp" id="pw2" type="password" autocomplete="new-password" autocapitalize="off" spellcheck="false">
-          <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          <p class="mut" id="meterTxt" aria-live="polite">Strength: –</p>
-          <div class="two"><button class="btn sec sm" id="showPw" data-act="showpw"><i data-i="eye"></i><span>Show password</span></button><button class="btn sec sm" data-act="gen"><i data-i="refresh"></i>Generate</button></div>
-          <p class="mut small">Store it safely. ZipForge never saves it, and it can't be recovered.</p>
+        <div id="pwBox" class="pwbox" hidden>
+          <div class="field">
+            <label class="lbl" for="pw">Password</label>
+            <div class="pwin"><i data-i="lock" class="pwico"></i>
+              <input id="pw" type="password" placeholder="At least 6 characters" autocomplete="new-password" autocapitalize="off" spellcheck="false">
+              <button type="button" class="eye" data-act="showpw" aria-label="Show password" aria-pressed="false"><i data-i="eye"></i></button>
+            </div>
+            <div class="strength"><div class="meter" id="meter" data-s="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div><span id="meterTxt" aria-live="polite">Not set</span></div>
+          </div>
+          <div class="field">
+            <label class="lbl" for="pw2">Confirm password</label>
+            <div class="pwin"><i data-i="lock" class="pwico"></i>
+              <input id="pw2" type="password" placeholder="Re-enter password" autocomplete="new-password" autocapitalize="off" spellcheck="false">
+            </div>
+            <p class="match" id="pwMatch" aria-live="polite"></p>
+          </div>
+          <button type="button" class="btn sec sm" data-act="gen"><i data-i="refresh"></i>Generate strong password</button>
+          <p class="mut small pwnote">Store it safely. It is never saved and can't be recovered.</p>
         </div>
       </div>
       <div class="blk">
@@ -127,7 +136,7 @@
     <!-- SETTINGS (sub-page) -->
     <section id="s-settings" class="scr" hidden aria-label="Settings">
       <b class="grp">Appearance</b>
-      <div class="seg" role="radiogroup" aria-label="Theme"><button role="radio" data-th="light">Light</button><button role="radio" data-th="dark">Dark</button><button role="radio" data-th="system">System</button></div>
+      <div class="seg two-seg" role="radiogroup" aria-label="Theme"><button role="radio" data-th="light">Light</button><button role="radio" data-th="dark">Dark</button></div>
       <b class="grp">Default compression</b>
       <div class="seg" role="radiogroup" aria-label="Default compression"><button role="radio" data-lv="fast">Fast</button><button role="radio" data-lv="balanced">Balanced</button><button role="radio" data-lv="max">Maximum</button></div>
       <b class="grp">Privacy</b>

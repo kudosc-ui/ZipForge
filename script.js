@@ -3,7 +3,7 @@
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 
 /* ---------- 1. utils & icons ---------- */
-const ICO={file:'<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/>',folder:'<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',x:'<path d="M18 6L6 18M6 6l12 12"/>',plus:'<path d="M12 5v14M5 12h14"/>',sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',share:'<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>',check:'<path d="M20 6L9 17l-5-5"/>',shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',bolt:'<path d="M13 2L3 14h9l-1 8 10-12h-9z"/>',refresh:'<path d="M23 4v6h-6M1 20v-6h6M3.5 9a9 9 0 0 1 14.8-3.4L23 10M1 14l4.7 4.4A9 9 0 0 0 20.5 15"/>',broom:'<path d="M3 21l6-6M14 3l7 7-7 7-4-4z"/><path d="M9 15l-3 3"/>',archive:'<rect x="3" y="3" width="18" height="5" rx="1"/><path d="M5 8v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8M10 12h4"/>',back:'<path d="M15 18l-6-6 6-6"/>'};
+const ICO={file:'<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/>',folder:'<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',x:'<path d="M18 6L6 18M6 6l12 12"/>',plus:'<path d="M12 5v14M5 12h14"/>',sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',share:'<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>',check:'<path d="M20 6L9 17l-5-5"/>',shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',bolt:'<path d="M13 2L3 14h9l-1 8 10-12h-9z"/>',refresh:'<path d="M23 4v6h-6M1 20v-6h6M3.5 9a9 9 0 0 1 14.8-3.4L23 10M1 14l4.7 4.4A9 9 0 0 0 20.5 15"/>',broom:'<path d="M3 21l6-6M14 3l7 7-7 7-4-4z"/><path d="M9 15l-3 3"/>',archive:'<rect x="3" y="3" width="18" height="5" rx="1"/><path d="M5 8v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8M10 12h4"/>',back:'<path d="M15 18l-6-6 6-6"/>',lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',eyeoff:'<path d="M17.9 17.9A10.9 10.9 0 0 1 12 20C5 20 1 12 1 12a18.5 18.5 0 0 1 5.1-5.9M9.9 4.2A9.7 9.7 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.2 3.2M1 1l22 22"/><path d="M14.1 14.1a3 3 0 1 1-4.2-4.2"/>'};
 const I=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[n]}</svg>`;
 const icons=()=>$$('[data-i]').forEach(e=>e.innerHTML=I(e.dataset.i));
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -14,7 +14,7 @@ const open=d=>d.showModal?d.showModal():d.setAttribute('open','');
 
 /* ---------- 2. state ---------- */
 const saved=LS.get();
-const S={entries:[],step:'home',prevStep:'home',level:saved.level||'balanced',theme:saved.theme||'system',nameEdited:false,rules:[],preset:'off',result:null,busy:false,cancel:false,url:null};
+const S={entries:[],step:'home',prevStep:'home',level:saved.level||'balanced',theme:saved.theme==='light'?'light':'dark',nameEdited:false,rules:[],preset:'off',result:null,busy:false,cancel:false,url:null};
 let nid=0;
 const LV={fast:'Quicker. Compresses small text-like files only.',balanced:'Recommended. Compresses everything that benefits from it.',max:'Smaller ZIP, may take longer. Compresses every file.'};
 const LVN={fast:'Fast',balanced:'Balanced',max:'Maximum'};
@@ -46,12 +46,14 @@ function stats(fs){const d=new Set();let size=0;for(const f of fs){size+=f.file.
 $('#preset').onchange=e=>{S.preset=e.target.value;S.rules=S.preset==='off'?[]:PRESETS[S.preset].map(p=>({p,on:true}));render()};
 
 /* ---------- 5. UI ---------- */
-function applyTheme(){document.documentElement.dataset.theme=S.theme;const d=S.theme==='dark'||(S.theme==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);$('meta[name=theme-color]').content=d?'#0a0f1f':'#5b5bf0'}
+function applyTheme(){document.documentElement.dataset.theme=S.theme;const d=S.theme==='dark'||(S.theme==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);$('meta[name=theme-color]').content=d?'#000000':'#ffffff'}
 function syncSeg(){$$('[data-th]').forEach(b=>b.setAttribute('aria-checked',b.dataset.th===S.theme));$$('[data-lv]').forEach(b=>b.setAttribute('aria-checked',b.dataset.lv===S.level));$('#lvDesc').textContent=LVN[S.level]+': '+LV[S.level]}
 const defName=()=>{const e=S.entries;return e.length===1?(e[0].kind==='folder'?e[0].name:e[0].name.replace(/\.[^.]+$/,'')||e[0].name):'Archive'};
 const zipName=()=>{let n=$('#zname').value.trim().replace(/\.zip$/i,'').replace(/[\\/:*?"<>|]+/g,'_')||defName();return n+'.zip'};
 function strength(p){let s=0;if(p.length>=8)s++;if(p.length>=12)s++;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))s++;if(/\d/.test(p)&&/[^A-Za-z0-9]/.test(p))s++;return p?Math.max(1,s):0}
-function meter(){const s=strength($('#pw').value);$$('#meter i').forEach((i,k)=>i.classList.toggle('on',k<s));$('#meterTxt').textContent='Strength: '+(['–','Weak','Fair','Good','Strong'][s])}
+function meter(){const s=strength($('#pw').value);$$('#meter i').forEach((i,k)=>i.classList.toggle('on',k<s));$('#meter').dataset.s=s;$('#meterTxt').textContent=(['Not set','Weak','Fair','Good','Strong'][s]);pwMatch()}
+function pwMatch(){const a=$('#pw').value,b=$('#pw2').value,m=$('#pwMatch');if(!b){m.textContent='';m.className='match';return}const ok=a===b;m.textContent=ok?'Passwords match':'Passwords don\'t match';m.className='match '+(ok?'ok':'bad')}
+function pwVis(show){$('#pw').type=$('#pw2').type=show?'text':'password';const b=$('#pwBox .eye');b.innerHTML=I(show?'eyeoff':'eye');b.setAttribute('aria-label',show?'Hide password':'Show password');b.setAttribute('aria-pressed',show)}
 function go(step,opts){S.step=step;render();$('#main').scrollTop=0;say({files:'Review files',opts:'ZIP options',sum:'Ready to compress',prog:'Creating ZIP',done:'ZIP ready',settings:'Settings',details:'ZIP details'}[step]||'')}
 function openSub(step){S.prevStep=S.step;if(step==='settings')syncSeg();if(step==='details')renderDetails();go(step)}
 function render(){
@@ -92,8 +94,8 @@ document.addEventListener('click',e=>{
   else if(a==='details')openSub('details');
   else if(a==='back')go(S.prevStep||'home');
   else if(a==='close')t.closest('dialog').close();
-  else if(a==='showpw'){const h=$('#pw').type==='password';$('#pw').type=$('#pw2').type=h?'text':'password';t.querySelector('span').textContent=h?'Hide password':'Show password'}
-  else if(a==='gen'){const c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%*-_';const r=crypto.getRandomValues(new Uint32Array(18));const p=[...r].map(x=>c[x%c.length]).join('');$('#pw').value=$('#pw2').value=p;$('#pw').type=$('#pw2').type='text';$('#showPw span').textContent='Hide password';meter()}
+  else if(a==='showpw'){pwVis($('#pw').type==='password')}
+  else if(a==='gen'){const c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%*-_';const r=crypto.getRandomValues(new Uint32Array(18));const p=[...r].map(x=>c[x%c.length]).join('');$('#pw').value=$('#pw2').value=p;pwVis(true);meter()}
   else if(a==='dl'){const l=document.createElement('a');l.href=S.url;l.download=S.result.name;document.body.append(l);l.click();l.remove()}
   else if(a==='share'){navigator.share({files:[S.result.file],title:S.result.name}).catch(()=>{})}
   else if(a==='again'){resetAll(false)}
@@ -101,14 +103,14 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('change',e=>{if(e.target.dataset.rule!==undefined){S.rules[e.target.dataset.rule].on=e.target.checked;render()}});
 $('#pwOn').onchange=e=>{$('#pwBox').hidden=!e.target.checked};
-$('#pw').oninput=meter;$('#zname').oninput=()=>{S.nameEdited=true};
+$('#pw').oninput=meter;$('#pw2').oninput=pwMatch;$('#zname').oninput=()=>{S.nameEdited=true};
 $('#bBack').onclick=()=>{if(S.step==='opts')go('files');else if(S.step==='sum')go('opts');else if(S.step==='prog')S.cancel=true};
 $('#bNext').onclick=()=>{
   if(S.step==='files')return eff().length?go('opts'):showErr('none');
   if(S.step==='opts'){if($('#pwOn').checked){const a=$('#pw').value;if(a.length<6)return showErr('pwbad');if(a!==$('#pw2').value)return showErr('pwmatch')}return go('sum')}
   if(S.step==='sum')run()};
 function resetAll(hard){if(S.busy)return;S.entries=[];S.rules=[];S.preset='off';$('#preset').value='off';S.nameEdited=false;S.result=null;if(S.url)URL.revokeObjectURL(S.url);S.url=null;$('#pw').value=$('#pw2').value='';$('#pwOn').checked=false;$('#pwBox').hidden=true;meter();
-  if(hard){LS.clear();S.level='balanced';S.theme='system';applyTheme();syncSeg()}go('home')}
+  if(hard){LS.clear();S.level='balanced';S.theme='dark';applyTheme();syncSeg()}go('home')}
 
 /* ---------- 6. ZIP engine ---------- */
 const CT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
@@ -179,7 +181,7 @@ async function run(){
   const name=zipName(),level=S.level,s=stats(files);S.busy=true;S.cancel=false;go('prog');tick({path:'–',n:0,total:files.length,frac:0});
   let res=null,err=null;
   try{res=await build(files,{level,pw,tick})}catch(e){err=e}
-  S.busy=false;$('#pw').value=$('#pw2').value='';$('#pw').type=$('#pw2').type='password';meter(); /* password never kept */
+  S.busy=false;$('#pw').value=$('#pw2').value='';pwVis(false);meter(); /* password never kept */
   if(err){go('sum');if(!(err&&err.code==='cancel'))showErr(errKind(err));return}
   if(S.url)URL.revokeObjectURL(S.url);S.url=URL.createObjectURL(res.blob);
   S.result={blob:res.blob,name,orig:s.size,zip:res.blob.size,files:s.n,dirs:s.d,level,pw:!!pw,stored:res.stored};
